@@ -6,33 +6,54 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-05-06 10:25:25
--- :ddddddddddhyyddddddddddd: Modified: 2015-05-06 19:11:40
+-- :ddddddddddhyyddddddddddd: Modified: 2015-05-07 01:29:53
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
 --      .+ydddddddddhs/.
 --          .-::::-`
 
-function love.load()
-	_in = love.graphics.newImage('Q boy.png')
-	_data = _in:getData()
-	-- print(_data:getString())
+EC = require 'EasyColor'
 
-	t = {
-		x = 0,
-		y = 0,
-		width = 100,
-		height = 50
+function newFrame(x, y, width, height)
+	return {
+		x = x,
+		y = y,
+		width = width,
+		height = height
 	}
 end
 
+function love.load()
+	_in = love.graphics.newImage('24693.png')
+	-- _in = love.graphics.newImage('Q boy.png')
+	_data = _in:getData()
+	_width = _data:getWidth()
+	_height = _data:getHeight()
+
+
+	for j=0,_height - 1 do
+		for i=0,_width - 1 do
+			local tmp = {}
+			tmp.r, tmp.g, tmp.b, tmp.a = _data:getPixel(i, j)
+			EC:newColor(i..':'..j, tmp)
+		end
+	end
+
+	EC:dump()
+end
+
 function love.update(dt)
+	_width_scale = love.window.getWidth() / 2 / _width
+	_height_scale = love.window.getHeight() / _height
 end
 
 function love.draw()
-	love.graphics.draw(_in)
-	love.graphics.rectangle('line', t.x, t.y, t.width, t.height)
-	-- love.graphics.draw(drawable, x, y, r, sx, sy, ox, oy, kx, ky)
+	if _width_scale < _height_scale then
+		love.graphics.draw(_in, 0, 0, 0, _width_scale)
+	else
+		love.graphics.draw(_in, 0, 0, 0, 0, _height_scale)
+	end
 end
 
 -- function love.keypressed(key)
