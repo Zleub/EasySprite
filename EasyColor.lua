@@ -6,7 +6,7 @@
 -- /ddddy:oddddddddds:sddddd/ By adebray - adebray
 -- sdddddddddddddddddddddddds
 -- sdddddddddddddddddddddddds Created: 2015-05-06 20:41:57
--- :ddddddddddhyyddddddddddd: Modified: 2015-05-06 22:50:04
+-- :ddddddddddhyyddddddddddd: Modified: 2015-05-08 05:19:29
 --  odddddddd/`:-`sdddddddds
 --   +ddddddh`+dh +dddddddo
 --    -sdddddh///sdddddds-
@@ -17,16 +17,24 @@ EC = {}
 EC.colors = {}
 EC.verb = false
 
+function EC:reset()
+	EC.colors = {}
+end
+
 function EC:dump()
 	for k,v in pairs(self.colors) do
 		print(k, 'r: '..v.r..',\tg: '..v.g..',\tb: '..v.b..',\ta: '..v.a)
 	end
 end
 
+function EC:compareTable(lhs, rhs)
+	return lhs.r == rhs.r and lhs.g == rhs.g and
+			lhs.b == rhs.b and lhs.a == rhs.a
+end
+
 function EC:searchTable(table)
 	for k,v in pairs(self.colors) do
-		if v.r == table.r and v.g == table.g and
-			v.b == table.b and v.a == table.a then
+		if self:compareTable(v, table) then
 			return true
 		end
 	end
